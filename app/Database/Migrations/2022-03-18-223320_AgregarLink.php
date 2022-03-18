@@ -46,7 +46,7 @@ class AgregarLink extends Migration
                 'type' => 'VARCHAR',
                 'constraint' => '25',
                 'null' => false,
-                'default' => 'REGISTERED',
+                'default' => 'REGISTRADO',
             ],
         ]);
         $this->forge->addPrimaryKey('id');

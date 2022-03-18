@@ -27,7 +27,7 @@ class AgregarEstadistica extends Migration
                 'type' => 'VARCHAR',
                 'constraint' => '25',
                 'null' => false,
-                'default' => 'REGISTERED',
+                'default' => 'REGISTRADO',
             ],
         ]);
         $this->forge->addForeignKey('link_id', 'link', 'id', 'CASCADE', 'NULL');

@@ -42,7 +42,7 @@ class AgregarUsuarioGrupo extends Migration
                 'type' => 'VARCHAR',
                 'constraint' => '25',
                 'null' => false,
-                'default' => 'INACTIVE',
+                'default' => 'INACTIVO',
             ],
         ]);
 
