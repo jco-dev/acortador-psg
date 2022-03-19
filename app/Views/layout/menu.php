@@ -4,8 +4,26 @@
             <ul class="navigation-menu">
 
                 <li class="has-submenu">
-                    <a href="index.html">
-                        <i class="dripicons-meter"></i>Dashboard
+                    <a href="<?= base_url(route_to('dashboard')) ?>">
+                        <i class="dripicons-meter"></i>Inicio
+                    </a>
+                </li>
+
+                <li class="has-submenu">
+                    <a href="<?= base_url(route_to('links')) ?>">
+                        <i class="mdi mdi-link"></i>Links
+                    </a>
+                </li>
+
+                <li class="has-submenu">
+                    <a href="<?= base_url(route_to('links')) ?>">
+                        <i class="dripicons-user"></i>Usuarios
+                    </a>
+                </li>
+
+                <li class="has-submenu">
+                    <a href="<?= base_url(route_to('links')) ?>">
+                        <i class="dripicons-user-group"></i>Grupos
                     </a>
                 </li>
 
