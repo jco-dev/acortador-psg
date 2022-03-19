@@ -38,7 +38,7 @@ $routes->get('/recuperar-contraseña', 'Auth::recoverPassword');
 $routes->post('autentificar', 'Auth::signin', ['as' => 'autentificar']);
 $routes->get('logout', 'Auth::signout', ['as' => 'signout']);
 
-$routes->group('admin', ['namespace' => 'App\Controllers\Admin'], function ($routes) {
+$routes->group('admin', ['namespace' => 'App\Controllers\Admin', 'filter' => 'auth'], function ($routes) {
     $routes->get('dashboard', 'Dashboard::index', ['as' => 'dashboard']);
 });
 
