@@ -34,18 +34,29 @@
                                     <span><img src="<?= base_url('assets/principal/posgrado.png') ?>" alt="" height="50"></span>
                                 </a>
                             </div>
+                            <?php if (session('msg')) : ?>
+                                <div class="alert alert-<?= session('msg.type') ?> alert-dismissible fade show" role="alert">
+                                    <strong><?= session('msg.body') ?></strong>
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                            <?php endif; ?>
 
-                            <form action="#" class="pt-2">
+                            <form action="<?= base_url('autentificar') ?>" method="POST" class="pt-2 frm-auth">
 
                                 <div class="form-group mb-3">
+                                    <?= csrf_field() ?>
                                     <label for="correo">Email</label>
-                                    <input class="form-control" type="email" id="correo" required="" placeholder="Ingrese su correo">
+                                    <input class="form-control" type="email" id="correo" name="correo" parsley-trigger="change" value="<?= old('correo') ?>" placeholder="Ingrese su correo" required />
+                                    <p class="text-danger"><?= session('errors.correo') ?></p>
                                 </div>
 
                                 <div class="form-group mb-3">
                                     <a href="<?= base_url("/recuperar-contraseña") ?>" class="text-muted float-right"><small>¿Olvidaste tu contraseña?</small></a>
                                     <label for="clave">Contraseña</label>
-                                    <input class="form-control" type="password" required="" id="clave" placeholder="********">
+                                    <input class="form-control" type="password" id="clave" name="clave" placeholder="********" required />
+                                    <p class="text-danger"><?= session('errors.clave') ?></p>
                                 </div>
 
                                 <div class="custom-control custom-checkbox mb-3">
@@ -61,7 +72,7 @@
 
                             <div class="row mt-3">
                                 <div class="col-12 text-center">
-                                    <p class="text-muted mb-0">¿No tienes una cuenta? <a href="pages-register.html" class="text-dark ml-1"><b>Registrarme</b></a></p>
+                                    <p class="text-muted mb-0">¿No tienes una cuenta? <a href="#" class="text-dark ml-1"><b>Registrarme</b></a></p>
                                 </div>
                             </div>
                         </div>
@@ -74,6 +85,13 @@
     <!-- js -->
     <script src="<?= base_url('greeva/assets/js/vendor.min.js') ?>"></script>
     <script src="<?= base_url('greeva/assets/js/app.min.js') ?>"></script>
+    <script src="<?= base_url('greeva/assets/libs/parsleyjs/parsley.min.js') ?>"></script>
+    <script src="<?= base_url('greeva/assets/libs/parsleyjs/i18n/es.js') ?>"></script>
+    <script>
+        $(document).ready(function() {
+            $(".frm-auth").parsley()
+        });
+    </script>
 
 </body>
 

@@ -54,7 +54,11 @@ class AgregarPersona extends Migration
             ],
             'creado_el timestamp default current_timestamp',
             'actualizado_el' => [
-                'type' => 'timestamp',
+                'type' => 'datetime',
+                'null' => true,
+            ],
+            'eliminado_el' => [
+                'type' => 'datetime',
                 'null' => true,
             ],
             'estado' => [

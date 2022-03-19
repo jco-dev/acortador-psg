@@ -20,7 +20,11 @@ class AgregarEstadistica extends Migration
             ],
             'creado_el timestamp default current_timestamp',
             'actualizado_el' => [
-                'type' => 'DATETIME',
+                'type' => 'datetime',
+                'null' => true,
+            ],
+            'eliminado_el' => [
+                'type' => 'datetime',
                 'null' => true,
             ],
             'estado' => [

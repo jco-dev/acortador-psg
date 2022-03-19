@@ -29,6 +29,10 @@ class AgregarUsuario extends Migration
                 'type' => 'datetime',
                 'null' => true,
             ],
+            'eliminado_el' => [
+                'type' => 'datetime',
+                'null' => true,
+            ],
             'estado' => [
                 'type' => 'VARCHAR',
                 'constraint' => '25',
@@ -37,7 +41,7 @@ class AgregarUsuario extends Migration
             ],
         ]);
 
-        $this->forge->addKey('persona_id', true);
+        $this->forge->addPrimaryKey('persona_id', true);
         $this->forge->addForeignKey('persona_id', 'persona', 'id', 'CASCADE', 'NULL');
         $this->forge->createTable('usuario');
     }

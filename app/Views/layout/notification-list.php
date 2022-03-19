@@ -40,9 +40,9 @@
 
 <li class="dropdown notification-list">
     <a class="nav-link dropdown-toggle nav-user mr-0 waves-effect waves-light" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
-        <img src="greeva/assets/images/users/avatar-4.jpg" alt="user-image" class="rounded-circle">
+        <img src="<?= base_url('greeva/assets/images/users/avatar-4.jpg') ?>" alt="user-image" class="rounded-circle">
         <span class="pro-user-name ml-1">
-            Juan Carlos Condori <i class="mdi mdi-chevron-down"></i>
+            <?= session()->nombres . ' ' . session()->paterno ?> <i class="mdi mdi-chevron-down"></i>
         </span>
     </a>
     <div class="dropdown-menu dropdown-menu-right profile-dropdown ">
@@ -69,7 +69,7 @@
 
         <div class="dropdown-divider"></div>
 
-        <a href="javascript:void(0);" class="dropdown-item notify-item">
+        <a href="<?= base_url(route_to('signout')) ?>" class="dropdown-item notify-item">
             <i class="dripicons-power"></i>
             <span>Salir</span>
         </a>

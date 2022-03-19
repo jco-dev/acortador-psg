@@ -42,6 +42,10 @@ class AgregarLink extends Migration
                 'type' => 'datetime',
                 'null' => true,
             ],
+            'eliminado_el' => [
+                'type' => 'datetime',
+                'null' => true,
+            ],
             'estado' => [
                 'type' => 'VARCHAR',
                 'constraint' => '25',

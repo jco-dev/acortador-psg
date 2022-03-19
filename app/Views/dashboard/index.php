@@ -45,3 +45,16 @@ Tablero
     </div>
 </div>
 <?= $this->endSection() ?>
+
+<?= $this->section('js') ?>
+<script>
+    <?php if (session('msg')) : ?>
+        Swal.fire({
+            type: "<?= session('msg')['type'] ?>",
+            title: "Bienvenido!!!",
+            text: "<?= session('msg')['body'] ?>",
+            confirmButtonColor: "#00e378"
+        });
+    <?php endif; ?>
+</script>
+<?= $this->endSection() ?>

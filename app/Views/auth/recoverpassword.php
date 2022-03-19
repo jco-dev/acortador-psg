@@ -66,8 +66,8 @@
 	</div>
 
 	<!-- js -->
-	<script src="assets/js/vendor.min.js"></script>
-	<script src="assets/js/app.min.js"></script>
+	<script src="<?= base_url('greeva/assets/js/vendor.min.js') ?>"></script>
+	<script src="<?= base_url('greeva/assets/js/app.min.js') ?>"></script>
 </body>
 
 </html>

@@ -38,11 +38,15 @@ class AgregarUsuarioGrupo extends Migration
                 'type' => 'datetime',
                 'null' => true,
             ],
+            'eliminado_el' => [
+                'type' => 'datetime',
+                'null' => true,
+            ],
             'estado' => [
                 'type' => 'VARCHAR',
                 'constraint' => '25',
                 'null' => false,
-                'default' => 'INACTIVO',
+                'default' => 'REGISTRADO',
             ],
         ]);
 

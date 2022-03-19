@@ -17,7 +17,7 @@ if (file_exists(SYSTEMPATH . 'Config/Routes.php')) {
  * --------------------------------------------------------------------
  */
 $routes->setDefaultNamespace('App\Controllers');
-$routes->setDefaultController('Auth');
+$routes->setDefaultController('Dashboard');
 $routes->setDefaultMethod('index');
 $routes->setTranslateURIDashes(false);
 $routes->set404Override();
@@ -31,8 +31,16 @@ $routes->setAutoRoute(false);
 
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
-$routes->get('/auth/login', 'Auth::index');
+$routes->get('/', 'Dashboard::index', ['namespace' => 'App\Controllers\Admin']);
+
+$routes->get('/auth/login', 'Auth::index', ['as' => 'login']);
 $routes->get('/recuperar-contraseña', 'Auth::recoverPassword');
+$routes->post('autentificar', 'Auth::signin', ['as' => 'autentificar']);
+$routes->get('logout', 'Auth::signout', ['as' => 'signout']);
+
+$routes->group('admin', ['namespace' => 'App\Controllers\Admin'], function ($routes) {
+    $routes->get('dashboard', 'Dashboard::index', ['as' => 'dashboard']);
+});
 
 /*
  * --------------------------------------------------------------------

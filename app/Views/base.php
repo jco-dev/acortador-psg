@@ -15,6 +15,7 @@
     <link href="<?= base_url('greeva/assets/css/bootstrap.min.css') ?>" rel="stylesheet" type="text/css" />
     <link href="<?= base_url('greeva/assets/css/icons.min.css') ?>" rel="stylesheet" type="text/css" />
     <link href="<?= base_url('greeva/assets/css/app.min.css') ?>" rel="stylesheet" type="text/css" />
+    <link href="<?= base_url('greeva/assets/libs/sweetalert2/sweetalert2.min.css') ?>" rel="stylesheet" type="text/css" />
     <?= $this->renderSection("css") ?>
 </head>
 
@@ -63,6 +64,7 @@
     <script src="<?= base_url('greeva/assets/js/vendor.min.js') ?>"></script>
     <script src="<?= base_url('greeva/assets/libs/jquery-knob/jquery.knob.min.js') ?>"></script>
     <script src="<?= base_url('greeva/assets/js/app.min.js') ?>"></script>
+    <script src="<?= base_url('greeva/assets/libs/sweetalert2/sweetalert2.min.js') ?>"></script>
     <?= $this->renderSection("js") ?>
 </body>
 
