@@ -20,6 +20,16 @@ class AgregarLink extends Migration
                 'constraint' => 5,
                 'unsigned' => true,
             ],
+            'titulo' => [
+                'type' => 'VARCHAR',
+                'constraint' => '100',
+                'null' => false,
+            ],
+            'descripcion' => [
+                'type' => 'VARCHAR',
+                'constraint' => '100',
+                'null' => false,
+            ],
             'url_corto' => [
                 'type' => 'VARCHAR',
                 'constraint' => '150',
@@ -27,8 +37,7 @@ class AgregarLink extends Migration
                 'unique' => true,
             ],
             'link' => [
-                'type' => 'VARCHAR',
-                'constraint' => '255',
+                'type' => 'TEXT',
                 'null' => false,
                 'unique' => true,
             ],

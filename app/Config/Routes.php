@@ -40,6 +40,8 @@ $routes->get('logout', 'Auth::signout', ['as' => 'signout']);
 
 $routes->group('admin', ['namespace' => 'App\Controllers\Admin', 'filter' => 'auth'], function ($routes) {
     $routes->get('dashboard', 'Dashboard::index', ['as' => 'dashboard']);
+    $routes->get('link/get_data', 'Link::datatable', ['as' => 'datatatable']);
+    $routes->resource('link', ['controller' => 'Link']);
 });
 
 /*

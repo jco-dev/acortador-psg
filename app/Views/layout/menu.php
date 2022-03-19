@@ -10,7 +10,7 @@
                 </li>
 
                 <li class="has-submenu">
-                    <a href="<?= base_url(route_to('links')) ?>">
+                    <a href="<?= base_url('admin/link') ?>">
                         <i class="mdi mdi-link"></i>Links
                     </a>
                 </li>
