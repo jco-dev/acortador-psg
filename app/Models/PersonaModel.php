@@ -21,6 +21,7 @@ class PersonaModel extends Model
         'materno',
         'celular',
         'correo',
+        'eliminado_el'
     ];
 
     // Dates

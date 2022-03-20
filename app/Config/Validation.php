@@ -3,6 +3,7 @@
 namespace Config;
 
 use App\Validation\UniqueColumnEdit;
+use App\Validation\UsuarioValidation;
 use CodeIgniter\Validation\CreditCardRules;
 use CodeIgniter\Validation\FileRules;
 use CodeIgniter\Validation\FormatRules;
@@ -26,6 +27,7 @@ class Validation
         FileRules::class,
         CreditCardRules::class,
         UniqueColumnEdit::class,
+        UsuarioValidation::class,
     ];
 
     /**

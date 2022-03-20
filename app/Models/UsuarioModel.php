@@ -15,6 +15,8 @@ class UsuarioModel extends Model
         'persona_id',
         'usuario',
         'clave',
+        'estado',
+        'eliminado_el'
     ];
 
     // Dates

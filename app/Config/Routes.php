@@ -46,6 +46,12 @@ $routes->group('admin', ['namespace' => 'App\Controllers\Admin', 'filter' => 'au
     $routes->resource('link', ['controller' => 'Link']);
 });
 
+$routes->group('superadmin', ['namespace' => 'App\Controllers\SuperAdmin', 'filter' => 'auth'], function ($routes) {
+    $routes->get('usuario/active', 'Usuario::active');
+    $routes->get('usuario/get_data', 'Usuario::datatable', ['as' => 'datatatable_usuario']);
+    $routes->resource('usuario', ['controller' => 'Usuario']);
+});
+
 /*
  * --------------------------------------------------------------------
  * Additional Routing
