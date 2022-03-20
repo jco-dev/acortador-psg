@@ -20,10 +20,10 @@ Links
     <div class="col-12">
         <div class="card-box">
             <div class="float-right">
-                <button class="btn btn-primary float-right">
+                <a href="<?= base_url('admin/link/new') ?>" class="btn btn-primary float-right">
                     <i class=" dripicons-plus"></i>
                     Agregar Link
-                </button>
+                </a>
             </div>
             <br>
             <h4 class="header-title">&nbsp;</h4>
@@ -108,10 +108,12 @@ Links
                     mData: null,
                     bSortable: false,
                     mRender: function(data, type, full) {
-                        return ' <div class="btn-group mb-2"><a href="<?= base_url('admin/link/edit/') ?>' + data.id + '" class="btn btn-xs btn-purple waves-effect waves-light"><i class="dripicons-graph-line"></i></a>' + '<a href="<?= base_url('admin/link/delete/') ?>' + data.id + '" class="btn btn-xs btn-secondary waves-effect waves-light"><i class="dripicons-link"></i></a>' +
+                        return '<div class="btn-group mb-2"><a href="<?= base_url('admin/link/edit/') ?>' + data.id + '" class="btn btn-xs btn-purple waves-effect waves-light"><i class="dripicons-graph-line"></i></a>' +
+                            '<a href="<?= base_url('admin/link/delete/') ?>' + data.id + '" class="btn btn-xs btn-secondary waves-effect waves-light"><i class="dripicons-link"></i></a>' +
                             '<a href="<?= base_url('admin/link/edit/') ?>' + data.id + '" class="btn btn-xs btn-info waves-effect waves-light"><i class="dripicons-copy"></i></a>' +
                             '<a href="<?= base_url('admin/link/edit/') ?>' + data.id + '" class="btn btn-xs btn-warning waves-effect waves-light"><i class="fas fa-edit"></i></a>' +
-                            '<a href="<?= base_url('admin/link/delete/') ?>' + data.id + '" class="btn btn-xs btn-danger waves-effect waves-light"><i class="fas fa-trash"></i></a></div>';
+                            '<a href="<?= base_url('admin/link/delete/') ?>' + data.id + '" class="btn btn-xs btn-danger waves-effect waves-light"><i class="fas fa-trash"></i></a>' +
+                            '</div> ';
                     }
                 }
             ],
@@ -121,5 +123,15 @@ Links
         });
         tbl_link.buttons().container().appendTo("#datatable-buttons_wrapper .col-md-6:eq(0)");
     });
+</script>
+<script>
+    <?php if (session('msg')) : ?>
+        Swal.fire({
+            type: "<?= session('msg')['type'] ?>",
+            title: "Exito!!!",
+            text: "<?= session('msg')['body'] ?>",
+            confirmButtonColor: "#00e378"
+        });
+    <?php endif; ?>
 </script>
 <?= $this->endSection() ?>

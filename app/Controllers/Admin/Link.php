@@ -3,13 +3,16 @@
 namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
+use App\Models\LinkModel;
 
 class Link extends BaseController
 {
     public $db;
+    public $model;
     public function __construct()
     {
         $this->db = db_connect();
+        $this->model = new LinkModel();
     }
 
     public function index()
@@ -71,5 +74,39 @@ class Link extends BaseController
             'data' => $data,
         ];
         echo json_encode($json_data);
+    }
+
+    public function new()
+    {
+        return view('link/new');
+    }
+
+    public function create()
+    {
+        $data = [
+            'persona_id' => session()->id,
+            'titulo' => mb_convert_case(preg_replace('/\s+/', ' ', trim($this->request->getPost('titulo'))), MB_CASE_UPPER),
+            'descripcion' => mb_convert_case(preg_replace('/\s+/', ' ', trim($this->request->getPost('descripcion'))), MB_CASE_UPPER),
+            'url_corto' => url_title(trim($this->request->getPost('url_corto')), '-', true),
+            'link' => trim($this->request->getPost('link')),
+        ];
+
+        if (!$this->validate([
+            'titulo'      => 'required|max_length[100]',
+            'descripcion' => 'required|max_length[255]',
+            'url_corto'   => 'required|max_length[100]|is_unique[link.url_corto]',
+            'link'        => 'required|valid_url|is_unique[link.link]'
+        ])) {
+            return redirect()->back()
+                ->with('errors', $this->validator->getErrors())
+                ->withInput();
+        }
+
+        if ($this->model->insert($data)) {
+            return redirect()->to('/admin/link')->with('msg', [
+                'type' => 'success',
+                'body' => 'Registro creado correctamente.',
+            ]);
+        }
     }
 }
