@@ -109,4 +109,69 @@ class Link extends BaseController
             ]);
         }
     }
+
+    public function edit($id = null)
+    {
+        if ($id != null) {
+            $data = $this->model->find($id);
+            return view('link/edit', ['data' => $data]);
+        }
+
+        return redirect()->to('/admin/link')->with('msg', [
+            'type' => 'info',
+            'body' => 'Registro no encontrado.',
+        ]);
+    }
+
+    public function update($id = null)
+    {
+        if ($id != null && $this->model->where('id', $id)->first()) {
+            $data = [
+                'persona_id' => session()->id,
+                'titulo' => mb_convert_case(preg_replace('/\s+/', ' ', trim($this->request->getPost('titulo'))), MB_CASE_UPPER),
+                'descripcion' => mb_convert_case(preg_replace('/\s+/', ' ', trim($this->request->getPost('descripcion'))), MB_CASE_UPPER),
+                'url_corto' => url_title(trim($this->request->getPost('url_corto')), '-', true),
+                'link' => trim($this->request->getPost('link')),
+            ];
+            if (!$this->validate([
+                'titulo'      => 'required|max_length[100]',
+                'descripcion' => 'required|max_length[255]',
+                'url_corto'   => 'required|max_length[100]|is_unique_edit[url_corto,' . $id . ']',
+                'link'        => 'required|valid_url|is_unique_edit[link,' . $id . ']'
+            ])) {
+                return redirect()->back()
+                    ->with('errors', $this->validator->getErrors())
+                    ->withInput();
+            }
+
+            if ($this->model->update($id, $data)) {
+                return redirect()->to('/admin/link')->with('msg', [
+                    'type' => 'success',
+                    'body' => 'Registro actualizado correctamente.',
+                ]);
+            }
+        } else {
+            return redirect()->to('/admin/link')->with('msg', [
+                'type' => 'info',
+                'body' => 'Registro no encontrado.',
+            ]);
+        }
+    }
+
+    public function delete($id = null)
+    {
+        if ($id == null) {
+            return redirect()->to('/admin/link')->with('msg', [
+                'type' => 'info',
+                'body' => 'Registro no encontrado.',
+            ]);
+        }
+
+        if ($this->model->delete($id) && $this->model->update($id, ['estado' => "ELIMINADO"])) {
+            return $this->response->setJSON([
+                'type' => 'success',
+                'msg' => 'Registro eliminado correctamente.',
+            ]);
+        }
+    }
 }

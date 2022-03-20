@@ -63,6 +63,8 @@ Links
 
 <script src="<?= base_url('greeva/assets/libs/datatables/dataTables.keyTable.min.js') ?>"></script>
 <script src="<?= base_url('greeva/assets/libs/datatables/dataTables.select.min.js') ?>"></script>
+<script src="<?= base_url('assets/js/clipboard/clipboard.min.js') ?>"></script>
+
 <script>
     $(document).ready(function() {
         let tbl_link = $("#datatable-buttons").DataTable({
@@ -108,11 +110,12 @@ Links
                     mData: null,
                     bSortable: false,
                     mRender: function(data, type, full) {
+                        let base = "<?= base_url() ?>/" + full['url_corto']
                         return '<div class="btn-group mb-2"><a href="<?= base_url('admin/link/edit/') ?>' + data.id + '" class="btn btn-xs btn-purple waves-effect waves-light"><i class="dripicons-graph-line"></i></a>' +
-                            '<a href="<?= base_url('admin/link/delete/') ?>' + data.id + '" class="btn btn-xs btn-secondary waves-effect waves-light"><i class="dripicons-link"></i></a>' +
-                            '<a href="<?= base_url('admin/link/edit/') ?>' + data.id + '" class="btn btn-xs btn-info waves-effect waves-light"><i class="dripicons-copy"></i></a>' +
-                            '<a href="<?= base_url('admin/link/edit/') ?>' + data.id + '" class="btn btn-xs btn-warning waves-effect waves-light"><i class="fas fa-edit"></i></a>' +
-                            '<a href="<?= base_url('admin/link/delete/') ?>' + data.id + '" class="btn btn-xs btn-danger waves-effect waves-light"><i class="fas fa-trash"></i></a>' +
+                            '<a href="' + base + '" target="_blank" class="btn btn-xs btn-secondary waves-effect waves-light"><i class="dripicons-link"></i></a>' +
+                            '<button data-toggle="message" data-text="' + base + '" class="btn-copy btn btn-xs btn-info waves-effect waves-light"><i class="dripicons-copy"></i></button>' +
+                            '<a href="<?= base_url('admin/link/') ?>/' + data.id + '/edit" class="btn btn-xs btn-warning waves-effect waves-light"><i class="fas fa-edit"></i></a>' +
+                            '<button data-id="' + data.id + '" class="btn-delete-link btn btn-xs btn-danger waves-effect waves-light"><i class="fas fa-trash"></i></button>' +
                             '</div> ';
                     }
                 }
@@ -120,6 +123,71 @@ Links
             order: [
                 [0, 'desc']
             ],
+        }).on("click", "button.btn-delete-link", function(e) {
+            let id = $(this).data('id');
+            Swal.fire({
+                title: "¿Estás seguro de eliminar el Link?",
+                text: "confirma para eliminar el link",
+                type: "error",
+                showCancelButton: !0,
+                confirmButtonColor: "#31ce77",
+                cancelButtonColor: "#f34943",
+                confirmButtonText: "Si, eliminar!",
+                cancelButtonText: "No, cancelar!",
+            }).then(function(t) {
+                if (t.value) {
+                    $.post('<?= base_url('/admin/link') ?>/' + id, {
+                        id,
+                        _method: "DELETE",
+                        csrf_token_name: "<?= csrf_hash() ?>"
+                    }, function(data) {
+                        if (typeof data.type !== 'undefined' && data.type == 'success') {
+                            Swal.fire({
+                                title: "Eliminado!",
+                                text: data.msg,
+                                type: "success",
+                                confirmButtonText: "OK",
+                            }).then(function(t) {
+
+                            });
+                            tbl_link.ajax.reload();
+                        } else {
+                            Swal.fire({
+                                title: "Error!",
+                                text: "Error al eliminar el link.",
+                                type: "error",
+                                confirmButtonText: "OK",
+                            });
+                        }
+                    });
+                }
+            });
+
+        }).on("click", "button.btn-copy", function(e) {
+            let text = $(this).data('text');
+            let el = $(this);
+            const textCopied = ClipboardJS.copy(text);
+            el.on('hidden.bs.tooltip', function() {
+                el.html('<i class="dripicons-copy"></i>');
+            });
+            $(this).html('<i class="dripicons-checkmark"></i>');
+            el.on('hidden.bs.tooltip', function() {
+                // do something...
+            })
+            $('[data-toggle="message"]').tooltip({
+                boundary: 'window',
+                delay: {
+                    show: 1000,
+                    hide: 1000
+                },
+                trigger: 'click',
+                placement: 'top',
+                template: '<div class="tooltip" role="tooltip"><div class="arrow"></div><div class="tooltip-inner"></div></div>'
+            });
+            setTimeout(function() {
+                el.html('<i class="dripicons-copy"></i>');
+            }, 1000);
+
         });
         tbl_link.buttons().container().appendTo("#datatable-buttons_wrapper .col-md-6:eq(0)");
     });
