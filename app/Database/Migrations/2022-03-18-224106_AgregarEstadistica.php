@@ -9,6 +9,12 @@ class AgregarEstadistica extends Migration
     public function up()
     {
         $this->forge->addField([
+            'id' => [
+                'type' => 'INT',
+                'constraint' => 11,
+                'unsigned' => true,
+                'auto_increment' => true,
+            ],
             'link_id' => [
                 'type' => 'INT',
                 'constraint' => 5,
@@ -34,6 +40,7 @@ class AgregarEstadistica extends Migration
                 'default' => 'REGISTRADO',
             ],
         ]);
+        $this->forge->addPrimaryKey('id');
         $this->forge->addForeignKey('link_id', 'link', 'id', 'CASCADE', 'NULL');
         $this->forge->createTable('estadistica');
     }

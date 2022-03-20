@@ -174,4 +174,14 @@ class Link extends BaseController
             ]);
         }
     }
+
+    public function reports($id = null)
+    {
+        $data = $this->model->reports_all($id);
+        if ($data) {
+            return $this->response->setJSON($data);
+        } else {
+            return $this->response->setJSON([]);
+        }
+    }
 }

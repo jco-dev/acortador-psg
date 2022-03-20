@@ -13,6 +13,8 @@ Links
 <link href="<?= base_url('greeva/assets/libs/datatables/responsive.bootstrap4.min.css') ?>" rel="stylesheet" type="text/css" />
 <link href="<?= base_url('greeva/assets/libs/datatables/buttons.bootstrap4.min.css') ?>" rel="stylesheet" type="text/css" />
 <link href="<?= base_url('greeva/assets/libs/datatables/select.bootstrap4.min.css') ?>" rel="stylesheet" type="text/css" />
+<!-- Chartist Chart CSS -->
+<link rel="stylesheet" href="<?= base_url('greeva/assets/libs/chartist/chartist.min.css') ?>">
 <?= $this->endSection() ?>
 
 <?= $this->section("content") ?>
@@ -47,6 +49,22 @@ Links
 </div>
 <!-- end row -->
 
+<!-- modal -->
+<div class="modal fade bs-example-modal-xl" id="modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="modal-title">Extra large modal</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="modal-body" id="modal-body">
+                <div id="chart-with-area" class="ct-chart"></div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+<!-- fin modal -->
+
 <?= $this->endSection() ?>
 
 <?= $this->section('js') ?>
@@ -64,6 +82,9 @@ Links
 <script src="<?= base_url('greeva/assets/libs/datatables/dataTables.keyTable.min.js') ?>"></script>
 <script src="<?= base_url('greeva/assets/libs/datatables/dataTables.select.min.js') ?>"></script>
 <script src="<?= base_url('assets/js/clipboard/clipboard.min.js') ?>"></script>
+
+<script src="<?= base_url('greeva/assets/libs/chartist/chartist.min.js') ?>"></script>
+<script src="<?= base_url('greeva/assets/libs/chartist/chartist-plugin-tooltip.min.js') ?>"></script>
 
 <script>
     $(document).ready(function() {
@@ -110,8 +131,8 @@ Links
                     mData: null,
                     bSortable: false,
                     mRender: function(data, type, full) {
-                        let base = "<?= base_url() ?>/" + full['url_corto']
-                        return '<div class="btn-group mb-2"><a href="<?= base_url('admin/link/edit/') ?>' + data.id + '" class="btn btn-xs btn-purple waves-effect waves-light"><i class="dripicons-graph-line"></i></a>' +
+                        let base = "<?= base_url() ?>/r/" + full['url_corto']
+                        return '<div class="btn-group mb-2"><button data-id= "' + data.id + '" data-descripcion= "' + data.descripcion + '" class="btn-reports btn btn-xs btn-purple waves-effect waves-light"><i class="dripicons-graph-line"></i></button>' +
                             '<a href="' + base + '" target="_blank" class="btn btn-xs btn-secondary waves-effect waves-light"><i class="dripicons-link"></i></a>' +
                             '<button data-toggle="message" data-text="' + base + '" class="btn-copy btn btn-xs btn-info waves-effect waves-light"><i class="dripicons-copy"></i></button>' +
                             '<a href="<?= base_url('admin/link/') ?>/' + data.id + '/edit" class="btn btn-xs btn-warning waves-effect waves-light"><i class="fas fa-edit"></i></a>' +
@@ -188,7 +209,49 @@ Links
                 el.html('<i class="dripicons-copy"></i>');
             }, 1000);
 
-        });
+        }).on('click', "button.btn-reports", function(e) {
+            let id = $(this).data('id');
+            let descripcion = $(this).data('descripcion');
+            $('.modal-title').html('Reportes Estadísticos: ' + descripcion);
+
+            $.ajax({
+                url: '<?= base_url('admin/link/get_reports') ?>/' + id,
+                type: 'GET',
+            }).done(function(response) {
+                if (response.length > 0) {
+                    let lab = [];
+                    let ser = [];
+                    response.map(x => {
+                        lab.push(x.fecha);
+                        ser.push(x.total);
+                    });
+                    let chartist = new Chartist.Line("#chart-with-area", {
+                        labels: lab,
+                        series: [
+                            ser
+                        ]
+                    }, {
+                        low: 0,
+                        showArea: !0,
+                        plugins: [Chartist.plugins.tooltip()]
+                    });
+                    $("#modal").modal('show');
+                    $('#modal').on('shown.bs.modal', function(e) {
+                        chartist.update();
+                    });
+                } else {
+                    Swal.fire({
+                        title: "Error!",
+                        text: "No hay reportes para este link.",
+                        type: "error",
+                        confirmButtonText: "OK",
+                    });
+                }
+            });
+
+
+        })
+
         tbl_link.buttons().container().appendTo("#datatable-buttons_wrapper .col-md-6:eq(0)");
     });
 </script>

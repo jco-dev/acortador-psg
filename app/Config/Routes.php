@@ -17,7 +17,7 @@ if (file_exists(SYSTEMPATH . 'Config/Routes.php')) {
  * --------------------------------------------------------------------
  */
 $routes->setDefaultNamespace('App\Controllers');
-$routes->setDefaultController('Dashboard');
+$routes->setDefaultController('Home');
 $routes->setDefaultMethod('index');
 $routes->setTranslateURIDashes(false);
 $routes->set404Override();
@@ -31,6 +31,7 @@ $routes->setAutoRoute(false);
 
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
+$routes->get('/r/(:any)', 'Home::index/$1');
 $routes->get('/', 'Dashboard::index', ['namespace' => 'App\Controllers\Admin']);
 
 $routes->get('/auth/login', 'Auth::index', ['as' => 'login']);
@@ -41,6 +42,7 @@ $routes->get('logout', 'Auth::signout', ['as' => 'signout']);
 $routes->group('admin', ['namespace' => 'App\Controllers\Admin', 'filter' => 'auth'], function ($routes) {
     $routes->get('dashboard', 'Dashboard::index', ['as' => 'dashboard']);
     $routes->get('link/get_data', 'Link::datatable', ['as' => 'datatatable']);
+    $routes->get('link/get_reports/(:num)', 'Link::reports/$1', ['as' => 'link']);
     $routes->resource('link', ['controller' => 'Link']);
 });
 
