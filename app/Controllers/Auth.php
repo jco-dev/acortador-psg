@@ -78,7 +78,7 @@ class Auth extends BaseController
 
         return redirect()->route('dashboard')->with('msg', [
             'type' => 'success',
-            'body' => 'Bienvenido al sistema Juan Carlos Condori.'
+            'body' => 'Bienvenido al sistema ' . $persona['nombres'] . ' ' . $persona['paterno'] . ' ' . $persona['materno'] . '.'
         ]);
     }
 
