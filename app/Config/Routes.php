@@ -50,6 +50,9 @@ $routes->group('superadmin', ['namespace' => 'App\Controllers\SuperAdmin', 'filt
     $routes->get('usuario/active', 'Usuario::active');
     $routes->get('usuario/get_data', 'Usuario::datatable', ['as' => 'datatatable_usuario']);
     $routes->resource('usuario', ['controller' => 'Usuario']);
+
+    $routes->get('grupo/get_data', 'Grupo::datatable');
+    $routes->resource('grupo', ['controller' => 'Grupo']);
 });
 
 /*

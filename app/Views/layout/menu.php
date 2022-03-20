@@ -22,7 +22,7 @@
                 </li>
 
                 <li class="has-submenu">
-                    <a href="<?= base_url('superadmin/grupos') ?>">
+                    <a href="<?= base_url('superadmin/grupo') ?>">
                         <i class="dripicons-user-group"></i>Grupos
                     </a>
                 </li>
