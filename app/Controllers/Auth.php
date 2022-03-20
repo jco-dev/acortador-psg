@@ -66,6 +66,13 @@ class Auth extends BaseController
                 ]);
         }
 
+        $rol = $this->usuario->getRoleId($usuario['persona_id']);
+        if ($rol == null)
+            $rol_user = 'admin';
+        else
+            $rol_user = $rol[0]->nombre;
+
+
         session()->set([
             'id' => $usuario['persona_id'],
             'nombres' => $persona['nombres'],
@@ -73,6 +80,7 @@ class Auth extends BaseController
             'materno' => $persona['materno'],
             'correo' => $persona['correo'],
             'usuario' => $usuario['usuario'],
+            'rol' => $rol_user,
             'is_logged' => true
         ]);
 

@@ -31,4 +31,14 @@ class UsuarioModel extends Model
     {
         return $this->where('usuario', $email)->first();
     }
+
+    public function getRoleId($id)
+    {
+        $builder = $this->db->table('grupo_usuario ug');
+        $builder->select('g.nombre');
+        $builder->join('grupo g', 'ug.grupo_id = g.id');
+        $builder->where('ug.usuario_id', $id);
+        $query = $builder->get();
+        return $query->getResult();
+    }
 }

@@ -20,7 +20,9 @@ $routes->setDefaultNamespace('App\Controllers');
 $routes->setDefaultController('Home');
 $routes->setDefaultMethod('index');
 $routes->setTranslateURIDashes(false);
-$routes->set404Override();
+$routes->set404Override(function () {
+    echo view('errors/404');
+});
 $routes->setAutoRoute(false);
 
 /*
@@ -39,14 +41,14 @@ $routes->get('/recuperar-contraseña', 'Auth::recoverPassword');
 $routes->post('autentificar', 'Auth::signin', ['as' => 'autentificar']);
 $routes->get('logout', 'Auth::signout', ['as' => 'signout']);
 
-$routes->group('admin', ['namespace' => 'App\Controllers\Admin', 'filter' => 'auth'], function ($routes) {
+$routes->group('admin', ['namespace' => 'App\Controllers\Admin', 'filter' => 'auth:admin,superadmin'], function ($routes) {
     $routes->get('dashboard', 'Dashboard::index', ['as' => 'dashboard']);
     $routes->get('link/get_data', 'Link::datatable', ['as' => 'datatatable']);
     $routes->get('link/get_reports/(:num)', 'Link::reports/$1', ['as' => 'link']);
     $routes->resource('link', ['controller' => 'Link']);
 });
 
-$routes->group('superadmin', ['namespace' => 'App\Controllers\SuperAdmin', 'filter' => 'auth'], function ($routes) {
+$routes->group('superadmin', ['namespace' => 'App\Controllers\SuperAdmin', 'filter' => 'auth:superadmin'], function ($routes) {
     $routes->get('usuario/active', 'Usuario::active');
     $routes->get('usuario/get_data', 'Usuario::datatable', ['as' => 'datatatable_usuario']);
     $routes->resource('usuario', ['controller' => 'Usuario']);

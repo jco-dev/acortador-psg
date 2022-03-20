@@ -2,6 +2,9 @@
 
 namespace App\Filters;
 
+use App\Models\PersonaModel;
+use App\Models\UsuarioModel;
+use CodeIgniter\Exceptions\PageNotFoundException;
 use CodeIgniter\Filters\FilterInterface;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
@@ -27,6 +30,17 @@ class Auth implements FilterInterface
     {
         if (!session()->is_logged) {
             return redirect()->route('login');
+        }
+        $persona = new PersonaModel();
+        $usuario = new UsuarioModel();
+
+        if (!$user = $persona->where('id', session()->id)->first()) {
+            return redirect()->route('login');
+        }
+
+        $rol = $usuario->getRoleId(session()->id);
+        if (!in_array($rol[0]->nombre, $arguments)) {
+            throw PageNotFoundException::forPageNotFound();
         }
     }
 
