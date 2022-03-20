@@ -45,4 +45,17 @@ class LinkModel extends Model
         $query = $builder->get();
         return $query->getResultArray();
     }
+
+    public function reports_links()
+    {
+        $builder = $this->db->table('link ul');
+        $builder->select("concat_ws(' ', up.nombres, up.paterno, up.materno) AS usuario, ul.descripcion,ul.url_corto,ul.creado_el,count(ue.link_id)AS total");
+        $builder->join('estadistica ue', 'ul.id = ue.link_id');
+        $builder->join('persona up', 'up.id = ul.persona_id');
+        $builder->groupBy("ue.link_id,up.nombres,up.paterno,up.materno,ul.descripcion,ul.url_corto,ul.creado_el");
+        $builder->orderBy(3, 'DESC');
+        $builder->limit(10);
+        $query = $builder->get();
+        return $query->getResultArray();
+    }
 }
