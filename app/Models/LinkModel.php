@@ -41,7 +41,7 @@ class LinkModel extends Model
         $builder->select("COUNT(*) AS total, TO_CHAR(ue.fecha, 'DD-MM-YYYY')  AS fecha");
         $builder->where('ue.link_id', $id);
         $builder->groupBy("TO_CHAR(ue.fecha, 'DD-MM-YYYY')");
-        $builder->orderBy(1, 'ASC');
+        $builder->orderBy(0, 'ASC');
         $query = $builder->get();
         return $query->getResultArray();
     }
@@ -53,8 +53,8 @@ class LinkModel extends Model
         $builder->join('estadistica ue', 'ul.id = ue.link_id');
         $builder->join('persona up', 'up.id = ul.persona_id');
         $builder->groupBy("ue.link_id,up.nombres,up.paterno,up.materno,ul.descripcion,ul.url_corto,ul.creado_el");
-        $builder->orderBy(3, 'DESC');
-        $builder->limit(10);
+        $builder->orderBy(5, 'DESC');
+        $builder->limit(20);
         $query = $builder->get();
         return $query->getResultArray();
     }
