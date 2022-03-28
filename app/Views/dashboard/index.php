@@ -21,28 +21,30 @@ Tablero
             </div>
         </div>
     </div>
-    <div class="col-xl-4">
-        <div class="card-box widget-chart-one gradient-info bx-shadow-lg">
-            <div class="float-left" dir="ltr">
-                <input data-plugin="knob" data-width="80" data-height="80" data-linecap=round data-fgColor="#ffffff" data-bgcolor="rgba(255,255,255,0.2)" value="<?= $cantidad_persona ?>" data-skin="tron" data-angleOffset="180" data-readOnly=true data-thickness=".1" />
-            </div>
-            <div class="widget-chart-one-content text-right">
-                <p class="text-white mb-0 mt-2">Usuarios Registrados</p>
-                <h3 class="text-white"><?= $cantidad_persona ?></h3>
-            </div>
-        </div>
-    </div>
-    <div class="col-xl-4">
-        <div class="card-box widget-chart-one gradient-danger bx-shadow-lg">
-            <div class="float-left" dir="ltr">
-                <input data-plugin="knob" data-width="80" data-height="80" data-linecap=round data-fgColor="#ffffff" data-bgcolor="rgba(255,255,255,0.2)" value="<?= $cantidad_grupo ?>" data-skin="tron" data-angleOffset="180" data-readOnly=true data-thickness=".1" />
-            </div>
-            <div class="widget-chart-one-content text-right">
-                <p class="text-white mb-0 mt-2">Grupos</p>
-                <h3 class="text-white"><?= $cantidad_persona ?></h3>
+    <?php if (session('rol') === 'superadmin') : ?>
+        <div class="col-xl-4">
+            <div class="card-box widget-chart-one gradient-info bx-shadow-lg">
+                <div class="float-left" dir="ltr">
+                    <input data-plugin="knob" data-width="80" data-height="80" data-linecap=round data-fgColor="#ffffff" data-bgcolor="rgba(255,255,255,0.2)" value="<?= $cantidad_persona ?>" data-skin="tron" data-angleOffset="180" data-readOnly=true data-thickness=".1" />
+                </div>
+                <div class="widget-chart-one-content text-right">
+                    <p class="text-white mb-0 mt-2">Usuarios Registrados</p>
+                    <h3 class="text-white"><?= $cantidad_persona ?></h3>
+                </div>
             </div>
         </div>
-    </div>
+        <div class="col-xl-4">
+            <div class="card-box widget-chart-one gradient-danger bx-shadow-lg">
+                <div class="float-left" dir="ltr">
+                    <input data-plugin="knob" data-width="80" data-height="80" data-linecap=round data-fgColor="#ffffff" data-bgcolor="rgba(255,255,255,0.2)" value="<?= $cantidad_grupo ?>" data-skin="tron" data-angleOffset="180" data-readOnly=true data-thickness=".1" />
+                </div>
+                <div class="widget-chart-one-content text-right">
+                    <p class="text-white mb-0 mt-2">Grupos</p>
+                    <h3 class="text-white"><?= $cantidad_persona ?></h3>
+                </div>
+            </div>
+        </div>
+    <?php endif; ?>
 
     <div class="col-xl-12">
         <div class="card-box">

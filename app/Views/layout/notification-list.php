@@ -52,7 +52,7 @@
             </h6>
         </div>
 
-        <a href="javascript:void(0);" class="dropdown-item notify-item">
+        <a href="<?= route_to('cuenta') ?>" class="dropdown-item notify-item">
             <i class="dripicons-user"></i>
             <span>Mi Cuenta</span>
         </a>

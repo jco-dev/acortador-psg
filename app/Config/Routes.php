@@ -40,6 +40,8 @@ $routes->get('/auth/login', 'Auth::index', ['as' => 'login']);
 $routes->get('/recuperar-contraseña', 'Auth::recoverPassword');
 $routes->post('autentificar', 'Auth::signin', ['as' => 'autentificar']);
 $routes->get('logout', 'Auth::signout', ['as' => 'signout']);
+$routes->get('usuario/cuenta', 'Account::index', ['as' => 'cuenta', 'filter' => 'auth:admin,superadmin']);
+$routes->post('usuario/cambiar-contraseña', 'Account::changePassword', ['as' => 'cambiar-contraseña', 'filter' => 'auth:admin,superadmin']);
 
 $routes->group('admin', ['namespace' => 'App\Controllers\Admin', 'filter' => 'auth:admin,superadmin'], function ($routes) {
     $routes->get('dashboard', 'Dashboard::index', ['as' => 'dashboard']);

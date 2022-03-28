@@ -5,17 +5,20 @@ namespace App\Controllers\SuperAdmin;
 use App\Controllers\BaseController;
 use App\Models\PersonaModel;
 use App\Models\UsuarioModel;
+use App\Models\UsuarioGrupoModel;
 
 class Usuario extends BaseController
 {
     public $db;
     public $model;
     public $persona;
+    public $grupoUsuario;
     public function __construct()
     {
         $this->db = db_connect();
         $this->model = new UsuarioModel();
         $this->persona = new PersonaModel();
+        $this->grupoUsuario = new UsuarioGrupoModel();
     }
 
     public function index()
@@ -119,9 +122,16 @@ class Usuario extends BaseController
                     'clave' => password_hash(trim($this->request->getPost('ci')), PASSWORD_DEFAULT),
                 ]
             );
+
+            $this->grupoUsuario->insert([
+                'usuario_id'    => $this->persona->insertID,
+                'grupo_id'      => 2,
+                'fecha_inicio'  => date('Y-m-d'),
+                'fecha_fin'  => date('Y-m-d'),
+            ]);
             return redirect()->to('/superadmin/usuario')->with('msg', [
                 'type' => 'success',
-                'body' => 'Usuario regisgrado correctamente.',
+                'body' => 'Usuario registrado correctamente.',
             ]);
         }
     }

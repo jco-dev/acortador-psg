@@ -79,6 +79,7 @@ class Auth extends BaseController
             'paterno' => $persona['paterno'],
             'materno' => $persona['materno'],
             'correo' => $persona['correo'],
+            'celular' => $persona['celular'],
             'usuario' => $usuario['usuario'],
             'rol' => $rol_user,
             'is_logged' => true
