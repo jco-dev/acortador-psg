@@ -17,12 +17,31 @@ class Home extends BaseController
             exit();
         } else {
             $estadistica = new EstadisticaModel();
-            $estadistica->save([
-                'link_id' => $link['id'],
-                'fecha' => date('Y-m-d H:i:s')
-            ]);
+            if ($estadistica->where('link_id', $link['id'])->where('ip', $this->request->getIPAddress())->first() == NULL) {
+                $estadistica->save([
+                    'link_id' => $link['id'],
+                    'ip' => $this->request->getIPAddress(),
+                    'navegador' => $this->getUserAgentInfo(),
+                    'fecha' => date('Y-m-d H:i:s')
+                ]);
+            }
             header("Location:" . $link['link']);
             exit();
         }
+    }
+
+    public function getUserAgentInfo(): string
+    {
+        $agent = $this->request->getUserAgent();
+        if ($agent->isBrowser()) {
+            $currentAgent = $agent->getBrowser() . ' ' . $agent->getVersion() . '/' . $agent->getPlatform();
+        } elseif ($agent->isRobot()) {
+            $currentAgent = $agent->getRobot();
+        } elseif ($agent->isMobile()) {
+            $currentAgent = $agent->getMobile();
+        } else {
+            $currentAgent = 'Unidentified User Agent';
+        }
+        return $currentAgent;
     }
 }

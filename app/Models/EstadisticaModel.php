@@ -14,6 +14,8 @@ class EstadisticaModel extends Model
     protected $allowedFields    = [
         'link_id',
         'fecha',
+        'ip',
+        'navegador',
     ];
 
     // Dates

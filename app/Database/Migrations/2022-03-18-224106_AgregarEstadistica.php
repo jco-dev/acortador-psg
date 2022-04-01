@@ -20,6 +20,16 @@ class AgregarEstadistica extends Migration
                 'constraint' => 5,
                 'unsigned' => true,
             ],
+            'ip' => [
+                'type' => 'VARCHAR',
+                'constraint' => '20',
+                'null' => true,
+            ],
+            'navegador' => [
+                'type' => 'VARCHAR',
+                'constraint' => '100',
+                'null' => true,
+            ],
             "fecha" => [
                 "type" => "DATETIME",
                 "null" => false,

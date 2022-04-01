@@ -40,6 +40,7 @@ class LinkModel extends Model
         $builder = $this->db->table('estadistica ue');
         $builder->select("COUNT(*) AS total, TO_CHAR(ue.fecha, 'DD-MM-YYYY')  AS fecha");
         $builder->where('ue.link_id', $id);
+        $builder->where('ue.estado', 'REGISTRADO');
         $builder->groupBy("TO_CHAR(ue.fecha, 'DD-MM-YYYY')");
         $builder->orderBy(0, 'ASC');
         $query = $builder->get();
@@ -52,6 +53,7 @@ class LinkModel extends Model
         $builder->select("concat_ws(' ', up.nombres, up.paterno, up.materno) AS usuario, ul.descripcion,ul.url_corto,ul.creado_el,count(ue.link_id)AS total");
         $builder->join('estadistica ue', 'ul.id = ue.link_id');
         $builder->join('persona up', 'up.id = ul.persona_id');
+        $builder->where('ue.estado', 'REGISTRADO');
         $builder->groupBy("ue.link_id,up.nombres,up.paterno,up.materno,ul.descripcion,ul.url_corto,ul.creado_el");
         $builder->orderBy(5, 'DESC');
         $builder->limit(20);
