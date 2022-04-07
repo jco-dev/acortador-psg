@@ -15,10 +15,12 @@ class LinkModel extends Model
     protected $protectFields    = true;
     protected $allowedFields    = [
         'persona_id',
-        'titulo',
+        'responsable_id',
+        'tipo_link_id',
         'descripcion',
         'url_corto',
         'link',
+        'redireccion_instantanea',
         'estado'
     ];
 
@@ -50,14 +52,23 @@ class LinkModel extends Model
     public function reports_links()
     {
         $builder = $this->db->table('link ul');
-        $builder->select("concat_ws(' ', up.nombres, up.paterno, up.materno) AS usuario, ul.descripcion,ul.url_corto,ul.creado_el,count(ue.link_id)AS total");
+        $builder->select("concat_ws(' ', upe.nombres, upe.apellidos) AS responsable, ul.descripcion,ul.url_corto,ul.creado_el,count(ue.link_id)AS total");
         $builder->join('estadistica ue', 'ul.id = ue.link_id');
-        $builder->join('persona up', 'up.id = ul.persona_id');
+        $builder->join('persona_externa upe', 'upe.id = ul.responsable_id', 'left');
         $builder->where('ue.estado', 'REGISTRADO');
-        $builder->groupBy("ue.link_id,up.nombres,up.paterno,up.materno,ul.descripcion,ul.url_corto,ul.creado_el");
+        $builder->groupBy("ue.link_id,upe.nombres,upe.apellidos,ul.descripcion,ul.url_corto,ul.creado_el");
         $builder->orderBy(5, 'DESC');
         $builder->limit(20);
         $query = $builder->get();
         return $query->getResultArray();
+    }
+
+    public function edit($id)
+    {
+        $builder = $this->db->table('link ul');
+        $builder->select("*");
+        $builder->where('ul.id', $id);
+        $query = $builder->get();
+        return $query->getRowArray();
     }
 }

@@ -20,10 +20,15 @@ class AgregarLink extends Migration
                 'constraint' => 5,
                 'unsigned' => true,
             ],
-            'titulo' => [
-                'type' => 'VARCHAR',
-                'constraint' => '100',
-                'null' => false,
+            'responsable_id' => [
+                'type' => 'INT',
+                'constraint' => 5,
+                'null' => true,
+            ],
+            'tipo_link_id' => [
+                'type' => 'INT',
+                'constraint' => 5,
+                'unsigned' => true,
             ],
             'descripcion' => [
                 'type' => 'VARCHAR',
@@ -64,6 +69,8 @@ class AgregarLink extends Migration
         ]);
         $this->forge->addPrimaryKey('id');
         $this->forge->addForeignKey('persona_id', 'persona', 'id', 'CASCADE', 'NULL');
+        $this->forge->addForeignKey('tipo_link_id', 'tipo_link', 'id', 'CASCADE', 'NULL');
+        $this->forge->addForeignKey('responsable_id', 'persona_externa', 'id', 'CASCADE', 'NULL');
         $this->forge->createTable('link');
     }
 

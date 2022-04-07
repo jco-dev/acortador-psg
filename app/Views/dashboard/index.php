@@ -70,7 +70,7 @@ Tablero
                 <table class="table table-centered table-hover mb-0" id="datatable">
                     <thead>
                         <tr>
-                            <th class="border-top-0">Usuario</th>
+                            <th class="border-top-0">Responsable</th>
                             <th class="border-top-0">descripción</th>
                             <th class="border-top-0">url corto</th>
                             <th class="border-top-0">Creado el</th>
@@ -83,7 +83,7 @@ Tablero
                                 <tr>
                                     <td>
                                         <img src="<?= base_url('greeva/assets/images/users/avatar-2.jpg') ?>" alt="user-pic" class="rounded-circle avatar-sm bx-shadow-lg" />
-                                        <span class="ml-2"><?= $value['usuario'] ?></span>
+                                        <span class="ml-2"><?= $value['responsable'] ?></span>
                                     </td>
                                     <td>
                                         <span class="ml-2"><?= $value['descripcion'] ?></span>

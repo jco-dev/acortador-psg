@@ -127,4 +127,5 @@ nb-configuration.xml
 
 app/Config/Database.php
 app/Config/App.php
+public/assets/img/captcha/
 

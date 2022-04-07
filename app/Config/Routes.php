@@ -36,6 +36,10 @@ $routes->setAutoRoute(false);
 $routes->get('/r/(:any)', 'Home::index/$1');
 $routes->get('/', 'Dashboard::index', ['namespace' => 'App\Controllers\Admin']);
 
+$routes->post('redirect', 'Home::redirect', ['as' => 'redireccion']);
+$routes->get('captcha', 'Home::generarCaptcha', ['as' => 'captcha']);
+$routes->post('sugerencia', 'Home::sugerencia', ['as' => 'sugerencia']);
+
 $routes->get('/auth/login', 'Auth::index', ['as' => 'login']);
 $routes->get('/recuperar-contraseña', 'Auth::recoverPassword');
 $routes->post('autentificar', 'Auth::signin', ['as' => 'autentificar']);

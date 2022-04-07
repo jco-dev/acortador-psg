@@ -31,7 +31,7 @@
 
                 <ul class="list-unstyled menu-left mb-0">
                     <li class="float-left logo-box">
-                        <a href="index.html" class="logo">
+                        <a href="/" class="logo">
                             <span class="logo-lg">
                                 <img src="<?= base_url('assets/principal/posgrado.png') ?>" alt="" height="35">
                             </span>

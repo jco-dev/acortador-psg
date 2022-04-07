@@ -36,10 +36,11 @@ Links
                         <th>Título</th>
                         <th>Descripción</th>
                         <th>Url Corto</th>
-                        <th>Persona</th>
-                        <th>Fecha</th>
+                        <th>Responsable</th>
+                        <th>Redirección</th>
+                        <th>Creado</th>
                         <th>Estado</th>
-                        <th>.::Acciones::.</th>
+                        <th class="text-center">.::Acciones::.</th>
                     </tr>
                 </thead>
                 <tbody></tbody>
@@ -111,7 +112,18 @@ Links
                     mData: "url_corto"
                 },
                 {
-                    mData: "usuario"
+                    mData: "responsable"
+                },
+                {
+                    mData: "redireccion_instantanea",
+                    bSortable: false,
+                    mRender: function(data, type, row) {
+                        if (data == "t") {
+                            return '<span class="badge badge-info">SI</span>';
+                        } else {
+                            return '<span class="badge badge-secondary">NO</span>';
+                        }
+                    }
                 },
                 {
                     mData: "creado_el"

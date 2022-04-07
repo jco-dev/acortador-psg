@@ -4,6 +4,8 @@ namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
 use App\Models\LinkModel;
+use App\Models\PersonaExternaModel;
+use App\Models\TipoLinkModel;
 
 class Link extends BaseController
 {
@@ -28,30 +30,34 @@ class Link extends BaseController
             1 => "titulo",
             2 => "descripcion",
             3 => "url_corto",
-            4 => "usuario",
-            5 => "ul.creado_el",
+            4 => "responsable",
+            5 => "redireccion_instantanea",
+            6 => "ul.creado_el",
         ];
 
         $sql_count = "SELECT COUNT(*) as total
             FROM us_link ul
-            INNER JOIN us_persona up ON ul.persona_id = up.id";
+            LEFT JOIN us_persona_externa upe ON ul.responsable_id = upe.id
+            INNER JOIN us_tipo_link utl ON ul.tipo_link_id = utl.id";
         $sql_data = "SELECT ul.id,
-                    ul.titulo,
+                    utl.titulo,
                     ul.descripcion,
                     ul.url_corto,
-                    concat_ws(' ', up.nombres, up.paterno, up.materno) AS usuario,
+                    concat_ws(' ', upe.nombres, upe.apellidos) AS responsable,
+                    ul.redireccion_instantanea,
                     ul.creado_el,
                     ul.estado
             FROM us_link ul
-            INNER JOIN us_persona up ON ul.persona_id = up.id";
+            LEFT JOIN us_persona_externa upe ON ul.responsable_id = upe.id
+            INNER JOIN us_tipo_link utl ON ul.tipo_link_id = utl.id";
         $condition = "";
 
         if (!empty($valor_buscado)) {
             foreach ($table_map as $key => $value) {
                 if ($key === 0) {
                     $condition .= " WHERE ul." . $value . "::TEXT LIKE '%" . $valor_buscado . "%'";
-                } elseif ($value == "usuario") {
-                    $condition .= " OR CONCAT_WS(' ', up.nombres, up.paterno, up.materno) LIKE '%" . $valor_buscado . "%'";
+                } elseif ($value == "responsable") {
+                    $condition .= " OR CONCAT_WS(' ', upe.nombres, upe.apellidos) LIKE '%" . $valor_buscado . "%'";
                 } else {
                     $condition .= " OR " . $value . "::TEXT LIKE '%" . $valor_buscado . "%'";
                 }
@@ -78,24 +84,38 @@ class Link extends BaseController
 
     public function new()
     {
-        return view('link/new');
+        $tipoLink = new TipoLinkModel();
+        $responsable = new PersonaExternaModel();
+        $tipoLink = $tipoLink->findAll();
+        $responsable = $responsable->findAll();
+        return view('link/new', [
+            'tipoLink' => $tipoLink,
+            'responsable' => $responsable,
+        ]);
     }
 
     public function create()
     {
+        if ($this->request->getPost('redireccion_instantanea'))
+            $r = true;
+        else
+            $r = false;
+
         $data = [
-            'persona_id' => session()->id,
-            'titulo' => mb_convert_case(preg_replace('/\s+/', ' ', trim($this->request->getPost('titulo'))), MB_CASE_UPPER),
-            'descripcion' => mb_convert_case(preg_replace('/\s+/', ' ', trim($this->request->getPost('descripcion'))), MB_CASE_UPPER),
-            'url_corto' => url_title(trim($this->request->getPost('url_corto')), '-', true),
-            'link' => trim($this->request->getPost('link')),
+            'persona_id'              => session()->id,
+            'responsable_id'          => $this->request->getPost('responsable_id'),
+            'tipo_link_id'            => $this->request->getPost('tipo_link_id'),
+            'descripcion'             => mb_convert_case(preg_replace('/\s+/', ' ', trim($this->request->getPost('descripcion'))), MB_CASE_UPPER),
+            'url_corto'               => url_title(trim($this->request->getPost('url_corto')), '-', true),
+            'link'                    => trim($this->request->getPost('link')),
+            'redireccion_instantanea' => $r
         ];
 
         if (!$this->validate([
-            'titulo'      => 'required|max_length[100]',
-            'descripcion' => 'required|max_length[255]',
-            'url_corto'   => 'required|max_length[100]|is_unique[link.url_corto]',
-            'link'        => 'required|valid_url|is_unique[link.link]'
+            'tipo_link_id' => 'required',
+            'descripcion'  => 'required|max_length[255]',
+            'url_corto'    => 'required|max_length[100]|is_unique[link.url_corto]',
+            'link'         => 'required|valid_url|is_unique[link.link]'
         ])) {
             return redirect()->back()
                 ->with('errors', $this->validator->getErrors())
@@ -113,8 +133,12 @@ class Link extends BaseController
     public function edit($id = null)
     {
         if ($id != null) {
-            $data = $this->model->find($id);
-            return view('link/edit', ['data' => $data]);
+            $tipoLink = new TipoLinkModel();
+            $tipoLink = $tipoLink->findAll();
+            $data = $this->model->withDeleted()->find($id);
+            $responsable = new PersonaExternaModel();
+            $responsable = $responsable->findAll();
+            return view('link/edit', ['data' => $data, 'tipoLink' => $tipoLink, 'responsable' => $responsable]);
         }
 
         return redirect()->to('/admin/link')->with('msg', [
@@ -125,19 +149,26 @@ class Link extends BaseController
 
     public function update($id = null)
     {
-        if ($id != null && $this->model->where('id', $id)->first()) {
+        if ($id != null && $this->model->withDeleted()->find($id)) {
+            if ($this->request->getPost('redireccion_instantanea'))
+                $r = true;
+            else
+                $r = false;
+
             $data = [
-                'persona_id' => session()->id,
-                'titulo' => mb_convert_case(preg_replace('/\s+/', ' ', trim($this->request->getPost('titulo'))), MB_CASE_UPPER),
-                'descripcion' => mb_convert_case(preg_replace('/\s+/', ' ', trim($this->request->getPost('descripcion'))), MB_CASE_UPPER),
-                'url_corto' => url_title(trim($this->request->getPost('url_corto')), '-', true),
-                'link' => trim($this->request->getPost('link')),
+                'persona_id'              => session()->id,
+                'responsable_id'          => $this->request->getPost('responsable_id'),
+                'tipo_link_id'            => $this->request->getPost('tipo_link_id'),
+                'descripcion'             => mb_convert_case(preg_replace('/\s+/', ' ', trim($this->request->getPost('descripcion'))), MB_CASE_UPPER),
+                'url_corto'               => url_title(trim($this->request->getPost('url_corto')), '-', true),
+                'link'                    => trim($this->request->getPost('link')),
+                'redireccion_instantanea' => $r
             ];
             if (!$this->validate([
-                'titulo'      => 'required|max_length[100]',
-                'descripcion' => 'required|max_length[255]',
-                'url_corto'   => 'required|max_length[100]|is_unique_edit[url_corto,' . $id . ']',
-                'link'        => 'required|valid_url|is_unique_edit[link,' . $id . ']'
+                'tipo_link_id' => 'required',
+                'descripcion'  => 'required|max_length[255]',
+                'url_corto'    => 'required|max_length[100]|is_unique_edit[url_corto,' . $id . ']',
+                'link'         => 'required|valid_url|is_unique_edit[link,' . $id . ']'
             ])) {
                 return redirect()->back()
                     ->with('errors', $this->validator->getErrors())
