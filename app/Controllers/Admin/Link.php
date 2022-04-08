@@ -115,7 +115,7 @@ class Link extends BaseController
             'tipo_link_id' => 'required',
             'descripcion'  => 'required|max_length[255]',
             'url_corto'    => 'required|max_length[100]|is_unique[link.url_corto]',
-            'link'         => 'required|valid_url|is_unique[link.link]'
+            'link'         => 'required|valid_url'
         ])) {
             return redirect()->back()
                 ->with('errors', $this->validator->getErrors())
@@ -168,7 +168,7 @@ class Link extends BaseController
                 'tipo_link_id' => 'required',
                 'descripcion'  => 'required|max_length[255]',
                 'url_corto'    => 'required|max_length[100]|is_unique_edit[url_corto,' . $id . ']',
-                'link'         => 'required|valid_url|is_unique_edit[link,' . $id . ']'
+                'link'         => 'required|valid_url'
             ])) {
                 return redirect()->back()
                     ->with('errors', $this->validator->getErrors())

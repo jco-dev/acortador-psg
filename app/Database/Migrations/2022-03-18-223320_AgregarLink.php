@@ -44,7 +44,7 @@ class AgregarLink extends Migration
             'link' => [
                 'type' => 'TEXT',
                 'null' => false,
-                'unique' => true,
+                'unique' => false,
             ],
             'redireccion_instantanea' => [
                 'type' => 'BOOLEAN',

@@ -34,17 +34,7 @@ class Dashboard extends BaseController
     public function reports()
     {
         $listado = $this->link->reports_links($this->request->getGet('id'));
-        $table =   '<table class="table table-centered table-hover mb-0" id="datatable">
-                        <thead>
-                            <tr>
-                                <th class="border-top-0">Responsable</th>
-                                <th class="border-top-0">descripción</th>
-                                <th class="border-top-0">url corto</th>
-                                <th class="border-top-0">Creado el</th>
-                                <th class="border-top-0">Total</th>
-                            </tr>
-                        </thead>
-                    <tbody>';
+        $table = '';
         if (count($listado) > 0) {
             foreach ($listado as $value) {
                 $table .=   '<tr>
@@ -65,8 +55,6 @@ class Dashboard extends BaseController
                 <td colspan="5">No hay registros</td>
             </tr>';
         }
-        $table .= '</tbody>
-                </table>';
         echo $table;
     }
 }

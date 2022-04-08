@@ -11,6 +11,35 @@ Tablero
 <?= $this->section('css') ?>
 <link href="<?= base_url('greeva/assets/libs/select2/select2.min.css') ?>" rel="stylesheet" type="text/css" />
 <link href="<?= base_url('greeva/assets/css/app.min.css') ?>" rel="stylesheet" type="text/css" />
+<style>
+    .lds-dual-ring {
+        display: inline-block;
+        width: 80px;
+        height: 80px;
+    }
+
+    .lds-dual-ring:after {
+        content: " ";
+        display: block;
+        width: 64px;
+        height: 64px;
+        margin: 8px;
+        border-radius: 50%;
+        border: 6px solid #fff;
+        border-color: #fff transparent #fff transparent;
+        animation: lds-dual-ring 1.2s linear infinite;
+    }
+
+    @keyframes lds-dual-ring {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+</style>
 <?= $this->endSection() ?>
 
 <?= $this->section("content") ?>
@@ -64,7 +93,21 @@ Tablero
             <h4 class="header-title mb-4">Historial de cursos más visitados</h4>
 
 
-            <div class="table-responsive" id="data-reports">
+            <div class="table-responsive">
+                <table class="table table-centered table-hover mb-0" id="datatable">
+                    <thead>
+                        <tr>
+                            <th class="border-top-0">Responsable</th>
+                            <th class="border-top-0">descripción</th>
+                            <th class="border-top-0">url corto</th>
+                            <th class="border-top-0">Creado el</th>
+                            <th class="border-top-0">Total</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody-reports">
+
+                    </tbody>
+                </table>
 
             </div>
 
@@ -88,11 +131,12 @@ Tablero
     $.get('<?= base_url(route_to('reports')) ?>', {
         id: null,
     }, function(data) {
-        $('#data-reports').html(data);
+        $('#tbody-reports').html(data);
     });
 
     $("#responsable").select2()
     $("#responsable").change(function() {
+        $("#tbody-reports").html('<tr><td colspan = "5"><center><div class="lds-dual-ring"></div></center></td></tr>');
         if ($(this).val() != '')
             id = $(this).val();
         else
@@ -101,7 +145,7 @@ Tablero
         $.get('<?= base_url(route_to('reports')) ?>', {
             id: id,
         }, function(data) {
-            $('#data-reports').html(data);
+            $('#tbody-reports').html(data);
         });
 
     });
