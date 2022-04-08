@@ -10,13 +10,6 @@ Links
 
 <?= $this->section('css') ?>
 <link href="<?= base_url('greeva/assets/libs/select2/select2.min.css') ?>" rel="stylesheet" type="text/css" />
-<link href="<?= base_url('greeva/assets/libs/bootstrap-tagsinput/bootstrap-tagsinput.css') ?>" rel="stylesheet" />
-<link href="<?= base_url('greeva/assets/libs/switchery/switchery.min.css') ?>" rel="stylesheet">
-<link href="<?= base_url('greeva/assets/libs/bootstrap-select/bootstrap-select.min.css') ?>" rel="stylesheet" />
-<link href="<?= base_url('greeva/assets/libs/bootstrap-timepicker/bootstrap-timepicker.min.css') ?>" rel="stylesheet" />
-<link href="<?= base_url('greeva/assets/libs/bootstrap-colorpicker/bootstrap-colorpicker.min.css') ?>" rel="stylesheet" />
-<link href="<?= base_url('greeva/assets/libs/bootstrap-datepicker/bootstrap-datepicker.min.css') ?>" rel="stylesheet" />
-<link href="<?= base_url('greeva/assets/libs/bootstrap-daterangepicker/daterangepicker.css') ?>" rel="stylesheet" />
 <link href="<?= base_url('greeva/assets/css/app.min.css') ?>" rel="stylesheet" type="text/css" />
 <?= $this->endSection() ?>
 
@@ -94,16 +87,6 @@ Links
 
 <?= $this->section('js') ?>
 <script src="<?= base_url('greeva/assets/libs/select2/select2.min.js') ?>"></script>
-<script src="<?= base_url('greeva/assets/libs/bootstrap-tagsinput/bootstrap-tagsinput.min.js') ?>"></script>
-<script src="<?= base_url('greeva/assets/libs/switchery/switchery.min.js') ?>"></script>
-<script src="<?= base_url('greeva/assets/libs/bootstrap-maxlength/bootstrap-maxlength.min.js') ?>"></script>
-<script src="<?= base_url('greeva/assets/libs/jquery-mask-plugin/jquery.mask.min.js') ?>"></script>
-<script src="<?= base_url('greeva/assets/libs/bootstrap-select/bootstrap-select.min.js') ?>"></script>
-<script src="<?= base_url('greeva/assets/libs/moment/moment.min.js') ?>"></script>
-<script src="<?= base_url('greeva/assets/libs/bootstrap-timepicker/bootstrap-timepicker.min.js') ?>"></script>
-<script src="<?= base_url('greeva/assets/libs/bootstrap-colorpicker/bootstrap-colorpicker.min.js') ?>"></script>
-<script src="<?= base_url('greeva/assets/libs/bootstrap-datepicker/bootstrap-datepicker.min.js') ?>"></script>
-<script src="<?= base_url('greeva/assets/libs/bootstrap-daterangepicker/daterangepicker.js') ?>"></script>
 
 <script src="<?= base_url('greeva/assets/libs/parsleyjs/parsley.min.js') ?>"></script>
 <script src="<?= base_url('greeva/assets/libs/parsleyjs/i18n/es.js') ?>"></script>

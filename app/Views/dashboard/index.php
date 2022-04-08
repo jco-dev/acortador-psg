@@ -8,6 +8,11 @@ Tablero
 Tablero
 <?= $this->endSection() ?>
 
+<?= $this->section('css') ?>
+<link href="<?= base_url('greeva/assets/libs/select2/select2.min.css') ?>" rel="stylesheet" type="text/css" />
+<link href="<?= base_url('greeva/assets/css/app.min.css') ?>" rel="stylesheet" type="text/css" />
+<?= $this->endSection() ?>
+
 <?= $this->section("content") ?>
 <div class="row">
     <div class="col-xl-4">
@@ -40,7 +45,7 @@ Tablero
                 </div>
                 <div class="widget-chart-one-content text-right">
                     <p class="text-white mb-0 mt-2">Grupos</p>
-                    <h3 class="text-white"><?= $cantidad_persona ?></h3>
+                    <h3 class="text-white"><?= $cantidad_grupo ?></h3>
                 </div>
             </div>
         </div>
@@ -48,58 +53,19 @@ Tablero
 
     <div class="col-xl-12">
         <div class="card-box">
-            <div class="dropdown float-right">
-                <a href="#" class="dropdown-toggle arrow-none card-drop" data-toggle="dropdown" aria-expanded="false">
-                    <i class="mdi mdi-dots-horizontal"></i>
-                </a>
-                <div class="dropdown-menu dropdown-menu-right">
-                    <!-- item-->
-                    <a href="javascript:void(0);" class="dropdown-item">Settings</a>
-                    <!-- item-->
-                    <a href="javascript:void(0);" class="dropdown-item">Download</a>
-                    <!-- item-->
-                    <a href="javascript:void(0);" class="dropdown-item">Upload</a>
-                    <!-- item-->
-                    <a href="javascript:void(0);" class="dropdown-item">Action</a>
-                </div>
+            <div class="float-right">
+                <select class="form-control" id="responsable" name="responsable" data-toggle="select2">
+                    <option value="">-- todos --</option>
+                    <?php foreach ($responsable as $value) : ?>
+                        <option value="<?= $value['id'] ?>"><?= $value['nombres'] . ' ' . $value['apellidos'] ?></option>
+                    <?php endforeach; ?>
+                </select>
             </div>
             <h4 class="header-title mb-4">Historial de cursos más visitados</h4>
 
 
-            <div class="table-responsive">
-                <table class="table table-centered table-hover mb-0" id="datatable">
-                    <thead>
-                        <tr>
-                            <th class="border-top-0">Responsable</th>
-                            <th class="border-top-0">descripción</th>
-                            <th class="border-top-0">url corto</th>
-                            <th class="border-top-0">Creado el</th>
-                            <th class="border-top-0">Total</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php if (count($listado) > 0) { ?>
-                            <?php foreach ($listado as $value) : ?>
-                                <tr>
-                                    <td>
-                                        <img src="<?= base_url('greeva/assets/images/users/avatar-2.jpg') ?>" alt="user-pic" class="rounded-circle avatar-sm bx-shadow-lg" />
-                                        <span class="ml-2"><?= $value['responsable'] ?></span>
-                                    </td>
-                                    <td>
-                                        <span class="ml-2"><?= $value['descripcion'] ?></span>
-                                    </td>
-                                    <td><?= $value['url_corto'] ?></td>
-                                    <td><?= $value['creado_el'] ?></td>
-                                    <td><span class="badge badge-pill badge-purple text-dark"><?= $value['total'] ?></span></td>
-                                </tr>
-                            <?php endforeach; ?>
-                        <?php } else { ?>
-                            <tr>
-                                <td colspan="5">No hay registros</td>
-                            </tr>
-                        <?php } ?>
-                    </tbody>
-                </table>
+            <div class="table-responsive" id="data-reports">
+
             </div>
 
         </div> <!-- end card-box-->
@@ -108,6 +74,7 @@ Tablero
 <?= $this->endSection() ?>
 
 <?= $this->section('js') ?>
+<script src="<?= base_url('greeva/assets/libs/select2/select2.min.js') ?>"></script>
 <script>
     <?php if (session('msg')) : ?>
         Swal.fire({
@@ -117,5 +84,26 @@ Tablero
             confirmButtonColor: "#00e378"
         });
     <?php endif; ?>
+
+    $.get('<?= base_url(route_to('reports')) ?>', {
+        id: null,
+    }, function(data) {
+        $('#data-reports').html(data);
+    });
+
+    $("#responsable").select2()
+    $("#responsable").change(function() {
+        if ($(this).val() != '')
+            id = $(this).val();
+        else
+            id = null;
+
+        $.get('<?= base_url(route_to('reports')) ?>', {
+            id: id,
+        }, function(data) {
+            $('#data-reports').html(data);
+        });
+
+    });
 </script>
 <?= $this->endSection() ?>

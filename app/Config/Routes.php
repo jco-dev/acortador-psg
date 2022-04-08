@@ -52,6 +52,7 @@ $routes->group('admin', ['namespace' => 'App\Controllers\Admin', 'filter' => 'au
     $routes->get('link/get_data', 'Link::datatable', ['as' => 'datatatable']);
     $routes->get('link/get_reports/(:num)', 'Link::reports/$1', ['as' => 'link']);
     $routes->resource('link', ['controller' => 'Link']);
+    $routes->get('report', 'Dashboard::reports', ['as' => 'reports']);
 });
 
 $routes->group('superadmin', ['namespace' => 'App\Controllers\SuperAdmin', 'filter' => 'auth:superadmin'], function ($routes) {

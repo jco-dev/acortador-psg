@@ -8,6 +8,11 @@ Editar Link
 Links
 <?= $this->endSection() ?>
 
+<?= $this->section('css') ?>
+<link href="<?= base_url('greeva/assets/libs/select2/select2.min.css') ?>" rel="stylesheet" type="text/css" />
+<link href="<?= base_url('greeva/assets/css/app.min.css') ?>" rel="stylesheet" type="text/css" />
+<?= $this->endSection() ?>
+
 <?= $this->section('content') ?>
 <div class="row">
     <div class="col-12">
@@ -82,11 +87,14 @@ Links
 <?= $this->endSection() ?>
 
 <?= $this->section('js') ?>
+<script src="<?= base_url('greeva/assets/libs/select2/select2.min.js') ?>"></script>
 <script src="<?= base_url('greeva/assets/libs/parsleyjs/parsley.min.js') ?>"></script>
 <script src="<?= base_url('greeva/assets/libs/parsleyjs/i18n/es.js') ?>"></script>
 <script>
     $(document).ready(function() {
-        $("#frm-edit-link").parsley()
+        $("#frm-edit-link").parsley();
+        $("#tipo_link_id").select2()
+        $("#responsable_id").select2()
     });
 </script>
 <?= $this->endSection() ?>

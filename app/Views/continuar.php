@@ -30,7 +30,7 @@
                             </div>
 
                             <div class="col-12 text-center">
-                                <p class="text-dark mb-1"><b>¡Bienvenido a Posgrado de la Universidad Pública de el Alto!</b></p>
+                                <p class="text-dark mb-1"><b>¡Bienvenido a Posgrado de la Universidad Pública de El Alto!</b></p>
                             </div>
                             <div class="col-12 text-center">
                                 <p class="text-dark">Porque tu formación académica nos interesa.</p>
