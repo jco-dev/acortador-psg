@@ -44,7 +44,7 @@ class LinkModel extends Model
         $builder->where('ue.link_id', $id);
         $builder->where('ue.estado', 'REGISTRADO');
         $builder->groupBy("TO_CHAR(ue.fecha, 'DD-MM-YYYY')");
-        $builder->orderBy(0, 'ASC');
+        $builder->orderBy(2, 'ASC');
         $query = $builder->get();
         return $query->getResultArray();
     }
